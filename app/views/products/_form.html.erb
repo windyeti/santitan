@@ -1,0 +1,133 @@
+
+<%= simple_form_for(@product) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <row>
+      <span class="col-md-5">
+         Название: <strong><%= @product.title %></strong>
+      </span>
+
+      <span class="col-md-5">
+        Артикул Товара в InSales: <strong><%= @product.sku %></strong>
+      </span>
+
+      <span class="col-md-5">
+        ID в InSales: <strong><%= @product.insales_id %></strong>
+      </span>
+      <span class="col-md-5">
+        ID Варианта в InSales: <strong><%= @product.insales_var_id %></strong>
+      </span>
+
+      <span class="col-md-5">
+        <%= f.input :price, label: 'Цена продажи:' %>
+      </span>
+      <span class="col-md-4">
+        <%= f.input :quantity, label: 'Остаток:' %>
+      </span>
+    </row>
+
+<!--    # TODO NewDistributor-->
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :lit_kom_id, label: "ID у поставщика Lit-kom" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :kovcheg_id, label: "ID у поставщика Kovcheg" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :nkamin_id, label: "ID у поставщика Nkamin" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :tmf_id, label: "ID у поставщика Tmf" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :shulepov_id, label: "ID у поставщика Shulepov" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :realflame_id, label: "ID у поставщика Realflame" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :dim_id, label: "ID у поставщика Dimplex" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :sawo_id, label: "ID у поставщика Sawo" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :saunaru_id, label: "ID у поставщика Saunaru" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :teplodar_id, label: "ID у поставщика Teplodar" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :contact_id, label: "ID у поставщика ContactPlus" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :teplomarket_id, label: "ID у поставщика Teplomarket-m" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :dantexgroup_id, label: "ID у поставщика Dantexgroup" %>
+        </span>
+      </span>
+      <span class="col-md-3">
+        <span class="editable">
+          <%= f.input :wellfit_id, label: "ID у поставщика Wellfitness" %>
+        </span>
+      </span>
+<!--    # TODO NewDistributor ----  END  -->
+
+    <span class="col-12">
+      Описание: <%= @product.desc.truncate(300) %>
+    </span>
+    <span class="col-12">
+      Категория: <strong><%= @product.cat %></strong>
+    </span>
+
+    <% if @product.url.present? %>
+      <div class="col-md-2">
+        <%= link_to 'Товар в InSales', @product.url , class: "d-flex align-items-center", target: 'blank' %>
+      </div>
+    <%end%>
+  </div>
+
+  <% if @product.image.present? %>
+    <div class="row ml-0 mr-0">
+      <% @product.image.split(' ').each do |pict| %>
+        <div class="w-25">
+          <img class="img-fluid img-thumbnail" src="<%= pict %>">
+        </div>
+      <% end %>
+    </div>
+  <%end%>
+
+  <div class="form-actions mt-4">
+    <%= f.button :submit , class: "btn btn-outline-success" %>
+    <%= link_to 'Back', products_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>
+

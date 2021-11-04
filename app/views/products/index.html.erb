@@ -1,0 +1,137 @@
+<div class="row mb-1 mr-0 ml-0 align-items-center" id="filter_menu">
+  <h3 class="mr-2 ">Товары</h3>
+  <div class="col-md-4 ">
+    <div class="mr-1">
+      <span class="align-middle"><small>Всего: <%= Product.product_all_size %></small></span>
+      <span class="align-middle"><small>Отфильтровано: <%=@products.count%></small></span>
+      <span class="align-middle"><small>Больше 0: <%= Product.product_qt_not_null_size %></small></span>
+    </div>
+  </div>
+  <div class="col-">
+    <div class="col- ">
+      <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Действия
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to 'Обновить каталог Товаров', import_product_products_path, class: 'dropdown-item'%>
+          <%#= link_to 'Линковать ()', linking_products_path, class: 'dropdown-item'%>
+          <%= link_to 'Синхронизировать Цены и Остатки', syncronaize_products_path, class: 'dropdown-item'%>
+          <%= link_to 'Создать CSV-файл для экспорта', export_csv_products_path, class: 'dropdown-item'%>
+          <%#= link_to 'Создать CSV-файл с товарами без Артикула', csv_not_sku_products_path, class: 'dropdown-item'%>
+<!--                <div class="dropdown-divider"></div>-->
+          <%#= link_to '(Скачать CSV-файл для экспорта)', "/export_insales.csv", class: 'dropdown-item' %>
+          <%#= link_to '(Скачать CSV-файл с товарами без Артикула)', "/csv_not_sku.csv", class: 'dropdown-item' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col- ">
+    <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
+      <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
+      <%#= f.collection_select :distributor_eq, Product.select(:distributor).uniq.order('distributor ASC'), 'distributor', 'distributor', {include_blank: false, prompt: 'Производитель'}, class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%= f.search_field :quantity_eq, placeholder: 'Остаток: =', class: "form-control input-sm" %>
+      <%= f.search_field :abc_id_eq, placeholder: 'ID продукта поставщика', class: "form-control input-sm" %>
+
+      <div class="dropdown">
+        <% head = Product::DISTRIBUTOR.map {|attr| attr[1] if @search.send(attr[0].to_sym) }.reject(&:nil?) %>
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+          <%= head.present? ? head.join(', ') : "Поставщики" %>
+        </button>
+        <ul class="dropdown-menu">
+          <% Product::DISTRIBUTOR.each do |attr| %>
+            <li class="dropdown-input dropdown-item<%= ' sync_unsync' if attr[1] == 'Sync' || attr[1] == 'Unsync' %>">
+              <%= check_box_tag("q[#{attr[0]}]", 1, @search.send(attr[0].to_sym))%>
+              <%= content_tag :span, attr[1] %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="form-group ml-2 button_group">
+        <% f.submit 'Поиск', class: 'btn btn-info' %>
+        <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+          <span class="oi oi-magnifying-glass"></span>
+        <% end %>
+        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, products_path, class: 'btn btn-outline-dark' %>
+        <%= link_to '<span class="oi oi-list"></span>'.html_safe, products_path(otchet_type: 'selected', q: @params_q_to_csv), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-responsive" id="container_for_table_with_data">
+<table class="table table-hover table-condensed table-sm">
+  <thead class="thead-light">
+    <tr>
+      <th>
+        <%#= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, remote: true, class: "btn btn-danger btn-sm", id: "deleteAll" %>
+        <%= check_box_tag 'selectAll', value = 'selectAll'%>
+      </th>
+      <th>Артикул</th>
+      <th>ID</th>
+      <th style="width:250px;">Title</th>
+      <th>Цена продажи</th>
+      <th>Остаток</th>
+      <th>Производитель</th>
+      <th>Поставщик</th>
+<!--      <th>Desc</th>-->
+      <th>Параметры</th>
+      <th style="width:250px;">Image</th>
+      <th>Товар в InSales</th>
+      <th>Товар у поставщика</th>
+<!--      <th></th>-->
+    </tr>
+  </thead>
+
+  <tbody id="products_table">
+    <% @products.each do |product| %>
+      <tr class="<%= 'sync' if distributor_exist?(product) %>" id='<%= "product_id_#{product.id}" %>'>
+        <td>
+          <%=check_box_tag "product_ids[]", product.id%>
+        </td>
+        <td>
+          <%= product.sku %>
+        </td>
+        <td>
+          <%= product.id %>
+          <% count_var = count_product_var(product) %>
+          <% if count_var[:count] > 1 %>
+            <span class="product__count_product_var" style="background-color: <%= color_by_id(product.insales_id) %>">
+              <%= count_var[:index_var] %><br>(<%= count_var[:count] %>)
+            </span>
+          <% end %>
+        </td>
+        <td><%= link_to product.title, edit_product_path(product) %></td>
+        <td><%= product.price %></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.distributor %></td>
+
+        <td><%= render 'distributor_lit_kom', product: product %></td>
+<!--        <td><%#= product.desc.truncate(25) if product.desc != nil%></td>-->
+        <td><%= product.p1.gsub(" --- ", ", ") %></td>
+        <td class="row ml-0 mr-0">
+          <% if product.image.present? %>
+            <% product.image.split(' ').each do |pict| %>
+              <div class="w-25">
+                <img class="img-thumbnail" src="<%= pict %>">
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+        <td><%= link_to 'Страница', product.url , target: 'blank' %></td>
+        <td>
+          <% if product.lit_kom.present? %><p><%= link_to '<span class="oi oi-eye"></span> Lit-kom'.html_safe, product.lit_kom.link , target: 'blank' %></p><%end%>
+        </td>
+<!--        <td><%#= link_to '<span class="oi oi-eye"></span>'.html_safe, product %></td>-->
+<!--        <td><%#= link_to '<span class="oi oi-trash"></span>'.html_safe, product, method: :delete, data: { type: :json, confirm: "Удалить? #{product.title}" }, remote: true, class: "delete_product" %></td>-->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<div class="digg_pagination mt-4 mb-4">
+    <%= will_paginate @products %>
+</div>
+

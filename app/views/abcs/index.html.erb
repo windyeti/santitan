@@ -1,0 +1,94 @@
+<div class="row mb-2 mr-0 ml-0 align-items-center" id="filter_menu">
+  <h3 class="mr-2">Поставщик ABC</h3>
+  <div class="col- mr-1">
+    <div class="form-import">
+      <%= form_tag import_abcs_path, multipart: true, class: "form_import" do %>
+        <%= file_field_tag :file %>
+        <%= submit_tag "Import" , class:'btn btn-primary btn-sm' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-4 mr-1">
+    <span class="align-middle"><small>Всего: <%= Abc.product_all_size %></small></span>
+    <span class="align-middle"><small>Отфильтровано: <%=@abcs.count%></small></span><br>
+    <span class="align-middle"><small>Больше нуля: <%= Abc.where.not(quantity: 0).size %></small></span>
+<!--    <span class="align-middle"><small>Синхронизируется: <%#= Product.where.not(abc: nil).size %></small></span>-->
+
+  </div>
+<!--  <div class="col- mr-1">-->
+<!--    <div class="dropdown">-->
+<!--      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--        Действия-->
+<!--      </a>-->
+<!--      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+        <%#= link_to 'Парсинг', parsing_lit_koms_path, class: 'dropdown-item'%>
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+  <!--  <div class="col- mr-1">-->
+  <%#= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_multiple_products_path, class: 'btn btn-secondary', id: 'edit_multiple', remote: true, data: { toggle: 'modal', 'target': '#modal-edit' } %>
+  <%#= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true%>
+  <!--  </div>-->
+<!--  <div class="col- ">-->
+    <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
+      <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control input-sm"%>
+      <%= f.search_field :title_or_sku_cont, placeholder: 'Название, Артикул', class: "form-control input-sm"%>
+      <%= f.search_field :quantity_eq, placeholder: 'Остаток =', class: "form-control input-sm"%>
+      <div class="form-group ml-2 button_group">
+        Цена от <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control input-sm mr-2"%>
+        Цена до <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control input-sm"%>
+      </div>
+
+      <%= render 'shared/filtersync', f: f %>
+
+      <div class="form-group ml-2 button_group">
+        <% f.submit 'Поиск', class: 'btn btn-info' %>
+        <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
+        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, abcs_path, class: 'btn btn-outline-dark' %>
+        <%= link_to '<span class="oi oi-list"></span>'.html_safe, abcs_path(otchet_type: 'selected', q: @params_q_to_csv), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-responsive" id="container_for_table_with_data">
+  <table class="table table-hover table-condensed table-sm">
+    <thead class="thead-light">
+    <tr>
+      <th><%= check_box_tag 'selectAll', value = 'selectAll'%></th>
+      <th>ID</th>
+      <th>ID в Товарах</th>
+      <th>Артикул</th>
+      <th>Название</th>
+      <th>Актуальность</th>
+      <th><%= sort_link(@search, :quantity) %></th>
+      <th><%= sort_link(@search, :price) %></th>
+      <th>Бренд</th>
+      <th>Серия</th>
+    </tr>
+    </thead>
+
+    <tbody id="products_table">
+    <% @abcs.each do |product| %>
+      <tr class="<%= 'sync' if product.product.present? %>">
+        <td><%=check_box_tag "product_ids[]", product.id%></td>
+        <td><%= product.id %></td>
+        <td><%= link_to product.product.id, products_path(q: {id_eq: product.product.id}) if product.product.present? %></td>
+        <td><%= product.sku %></td>
+        <td><%= link_to product.title, product, target: '_blank' %></td>
+        <td><%= product.check %></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.price %></td>
+        <td><%= product.brand %></td>
+        <td><%= product.series %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="digg_pagination mt-4 mb-4">
+  <%= will_paginate @abcs %>
+</div>
+
+
