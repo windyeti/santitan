@@ -64,32 +64,32 @@
 <table class="table table-hover table-condensed table-sm">
   <thead class="thead-light">
     <tr>
-      <th>
+<!--      <th>-->
         <%#= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, remote: true, class: "btn btn-danger btn-sm", id: "deleteAll" %>
-        <%= check_box_tag 'selectAll', value = 'selectAll'%>
-      </th>
+        <%#= check_box_tag 'selectAll', value = 'selectAll'%>
+<!--      </th>-->
       <th>Артикул</th>
       <th>ID</th>
       <th style="width:250px;">Title</th>
       <th>Цена продажи</th>
       <th>Остаток</th>
       <th>Производитель</th>
-      <th>Поставщик</th>
+<!--      <th>Поставщик</th>-->
 <!--      <th>Desc</th>-->
       <th>Параметры</th>
       <th style="width:250px;">Image</th>
       <th>Товар в InSales</th>
-      <th>Товар у поставщика</th>
-<!--      <th></th>-->
+<!--      <th>Товар у поставщика</th>-->
+      <th></th>
     </tr>
   </thead>
 
   <tbody id="products_table">
     <% @products.each do |product| %>
       <tr class="<%= 'sync' if distributor_exist?(product) %>" id='<%= "product_id_#{product.id}" %>'>
-        <td>
-          <%=check_box_tag "product_ids[]", product.id%>
-        </td>
+<!--        <td>-->
+          <%#=check_box_tag "product_ids[]", product.id%>
+<!--        </td>-->
         <td>
           <%= product.sku %>
         </td>
@@ -107,7 +107,7 @@
         <td><%= product.quantity %></td>
         <td><%= product.distributor %></td>
 
-        <td><%= render 'distributor_lit_kom', product: product %></td>
+<!--        <td><%#= render 'distributor_abc', product: product %></td>-->
 <!--        <td><%#= product.desc.truncate(25) if product.desc != nil%></td>-->
         <td><%= product.p1.gsub(" --- ", ", ") %></td>
         <td class="row ml-0 mr-0">
@@ -119,12 +119,13 @@
             <% end %>
           <% end %>
         </td>
-        <td><%= link_to 'Страница', product.url , target: 'blank' %></td>
-        <td>
-          <% if product.lit_kom.present? %><p><%= link_to '<span class="oi oi-eye"></span> Lit-kom'.html_safe, product.lit_kom.link , target: 'blank' %></p><%end%>
-        </td>
-<!--        <td><%#= link_to '<span class="oi oi-eye"></span>'.html_safe, product %></td>-->
-<!--        <td><%#= link_to '<span class="oi oi-trash"></span>'.html_safe, product, method: :delete, data: { type: :json, confirm: "Удалить? #{product.title}" }, remote: true, class: "delete_product" %></td>-->
+        <td><%= link_to 'Ссылка', product.url , target: 'blank' %></td>
+<!--        <td>-->
+          <%# if product.abc.present? %>
+              <%#= link_to '<span class="oi oi-eye"></span> ABC'.html_safe, product.abc.link , target: 'blank' %>
+          <%#end%>
+<!--        </td>-->
+        <td><%= link_to '<span class="oi oi-trash"></span>'.html_safe, product, method: :delete, data: { type: :json, confirm: "Удалить? #{product.title}" }, remote: true, class: "delete_product" %></td>
       </tr>
     <% end %>
   </tbody>

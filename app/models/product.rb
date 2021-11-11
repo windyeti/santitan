@@ -12,4 +12,15 @@ class Product < ApplicationRecord
     ["abc_id_null", "Unsync"],
     ["abc_id_not_null", "Sync"],
   ]
+
+  validate :new_distributor_empty, on: :update
+
+  def new_distributor_empty
+    if abc_id.present?
+      abc = Abc.find_by(id: abc_id)
+      if abc.nil?
+        errors.add(:abc_id, "Товар поставщика не существует")
+      end
+    end
+  end
 end

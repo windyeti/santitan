@@ -1,14 +1,9 @@
 class AbcsController < ApplicationController
+  before_action :set_abc, only: [:show]
+
   include Distributor
 
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-  end
+  def show; end
 
   def import
     FileUtils.rm_rf(Dir.glob('public/provider/*'))
@@ -21,5 +16,11 @@ class AbcsController < ApplicationController
     AbcImportJob.perform_later(path_file, extend_file)
     flash[:notice] = 'Задача импорта Товаров запущена'
     redirect_to abcs_path
+  end
+
+  private
+
+  def set_abc
+    @abc = Abc.find(params[:id])
   end
 end

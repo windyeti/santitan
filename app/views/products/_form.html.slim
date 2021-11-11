@@ -1,0 +1,55 @@
+= form_with model:@product, local: true do |f|
+  = render "shared/errors", resource: @product
+
+  .form-inputs
+    .row
+      span.col-md-5
+        | Название: 
+        strong = @product.title
+
+      span.col-md-5
+        | Артикул Товара в InSales:
+        strong = @product.sku
+
+      span.col-md-5
+        | ID в InSales:
+        strong = @product.insales_id
+
+      span.col-md-5
+        | ID Варианта в InSales:
+        strong = @product.insales_var_id
+
+
+      span.col-md-5
+        = f.label 'Цена продажи:'
+        = f.text_field :price
+
+      span.col-md-4
+        = f.label 'Остаток:'
+        = f.text_field :quantity
+
+      span.col-12
+        span.editable
+          = f.label "ID у поставщика ABC"
+          = f.text_field :abc_id
+
+    span.col-12 Описание: #{@product.desc.truncate(300)}
+
+    span.col-12
+      | Категория:
+      strong =@product.cat
+
+    - if @product.url.present?
+      .col-md-2
+        = link_to 'Товар в InSales', @product.url , class: "d-flex align-items-center", target: 'blank'
+
+  - if @product.image.present?
+    .row.ml-0.mr-0
+      - @product.image.split(' ').each do |pict|
+        .w-25
+          img.img-fluid.img-thumbnail src="#{pict}"
+
+  .form-actions.mt-4
+    = f.button :submit , class: "btn btn-outline-success"
+    = link_to 'Back', products_path, class: "btn btn-outline-secondary"
+

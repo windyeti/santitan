@@ -25,7 +25,7 @@ class Services::ImportProduct
         params << "#{name}: #{text}"
       end
 
-      pp data_create = {
+      data_create = {
         sku: pr.xpath("vendorCode").text,
         title: pr.xpath("model").text,
         url: pr.xpath("url").text,
@@ -40,7 +40,7 @@ class Services::ImportProduct
         insales_var_id: pr["id"],
       }
 
-      pp data_update = {
+      data_update = {
         sku: pr.xpath("vendorCode").text,
         title: pr.xpath("model").text,
         url: pr.xpath("url").text,
@@ -53,11 +53,10 @@ class Services::ImportProduct
         p1: params.join(' --- '),
         check: true,
       }
-      # product = Product
-      #             .find_by(insales_var_id: data_create[:insales_var_id])
-      #
-      # product.present? ? product.update_attributes(data_update) : Product.create!(data_create)
-      # pp product
+      product = Product
+                  .find_by(insales_var_id: data_create[:insales_var_id])
+
+      product.present? ? product.update(data_update) : Product.create!(data_create)
     end
     puts '=====>>>> FINISH InSales YML '+Time.now.to_s
   end

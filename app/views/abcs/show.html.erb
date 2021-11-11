@@ -1,2 +1,41 @@
-<h1>Abcs#show</h1>
-<p>Find me in app/views/abcs/show.html.erb</p>
+<p>
+  <strong>Название:</strong>
+  <%= @abc.title %>
+</p>
+
+<p>
+  <strong>Артикул:</strong>
+  <%= @abc.sku %>
+</p>
+
+<p>
+  <strong>Цена:</strong>
+  <%= @abc.price %>
+</p>
+
+<p>
+  <strong>Цена закупки:</strong>
+  <%= @abc.purchase_price %>
+</p>
+
+<p>
+  <strong>Количество:</strong>
+  <%= @abc.quantity %>
+</p>
+
+<p>
+  <strong>Бренд:</strong>
+  <%= @abc.brand %>
+</p>
+
+<p>
+  <strong>Серия:</strong>
+  <%= @abc.series %>
+</p>
+
+<p>
+  <strong>Check:</strong>
+  <%= @abc.check %>
+</p>
+
+<%= link_to 'Back', abcs_path %>

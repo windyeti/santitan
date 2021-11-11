@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   root to: 'visitors#index'
 
-  resources :products, only: [:index, :show, :edit] do
+  resources :products do
     collection do
       get :import_product
       get :syncronaize
