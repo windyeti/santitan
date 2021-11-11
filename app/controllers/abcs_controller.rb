@@ -6,7 +6,7 @@ class AbcsController < ApplicationController
   def show; end
 
   def import
-    FileUtils.rm_rf(Dir.glob('public/stock.csv'))
+    FileUtils.rm_rf(Dir.glob('public/stock.*'))
     uploaded_io = params[:file]
     File.open(Rails.root.join('public', uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
