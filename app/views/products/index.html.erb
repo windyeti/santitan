@@ -30,7 +30,7 @@
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
       <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
       <%#= f.collection_select :distributor_eq, Product.select(:distributor).uniq.order('distributor ASC'), 'distributor', 'distributor', {include_blank: false, prompt: 'Производитель'}, class: "form-control input-sm" , style: "max-width: 150px;" %>
-      <%= f.search_field :quantity_eq, placeholder: 'Остаток: =', class: "form-control input-sm" %>
+      <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control input-sm", style: "width: 120px;" %>
       <%= f.search_field :abc_id_eq, placeholder: 'ID продукта поставщика', class: "form-control input-sm" %>
 
       <div class="dropdown">
