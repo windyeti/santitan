@@ -46,7 +46,7 @@ class Services::AbcImport
 
   def open_spreadsheet
     case @extend_file.split('.').last
-    when "csv" then Roo::Spreadsheet.open(@path_file, { csv_options: { encoding: 'r:bom|utf-8', col_sep: ";" } })
+    when "csv" then Roo::Spreadsheet.open(@path_file, { csv_options: { col_sep: ";" } })
     # when "csv" then Roo::Spreadsheet.open(path_file, { csv_options: { encoding: 'bom|utf-8', col_sep: "\t" } })
     when "xls" then Roo::Excel.new(@path_file)
     when "xlsx" then Roo::Excelx.new(@path_file)
