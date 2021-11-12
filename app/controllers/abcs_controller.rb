@@ -9,7 +9,7 @@ class AbcsController < ApplicationController
     FileUtils.rm_rf(Dir.glob('public/stock.*'))
     uploaded_io = params[:file]
     File.open(Rails.root.join('public', uploaded_io.original_filename), 'wb') do |file|
-      file.write(File.read(uploaded_io).encode('utf-8', 'binary', invalid: :replace, undef: :replace, replace: ''))
+      file.write(uploaded_io.read.encoding)
     end
     path_file = Rails.root.join('public', uploaded_io.original_filename).to_s
     extend_file = uploaded_io.original_filename.to_s
