@@ -12,9 +12,20 @@
 //
 //= require skim
 //= require rails-ujs
-//= require jquery3
+//= require jquery
 //= require activestorage
-//= require turbolinks
 //= require popper
 //= require bootstrap
+
+//= require jquery_ujs
+//= require best_in_place
+//= require jquery-ui
+//= require best_in_place.jquery-ui
+
 //= require_tree .
+
+
+$(document).ready(function() {
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});

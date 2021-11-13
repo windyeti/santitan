@@ -4,7 +4,7 @@ class Services::ImportProduct
 
     Product.all.each {|tov| tov.update(check: false)}
 
-    uri = "https://myshop-bqg173.myinsales.ru/marketplace/86818.xml"
+    uri = "https://santitan.ru/marketplace/87338.xml"
     response = RestClient.get uri, :accept => :xml, :content_type => "application/xml"
     data = Nokogiri::XML(response)
     offers = data.xpath("//offer")
@@ -26,11 +26,12 @@ class Services::ImportProduct
       end
 
       data_create = {
-        sku: pr.xpath("vendorCode").text,
+        sku: pr.xpath("sku").text,
         title: pr.xpath("model").text,
         url: pr.xpath("url").text,
+        quantity: pr.xpath("quantity").text,
         desc: pr.xpath("description").text,
-        distributor: pr.xpath("vendor").text,
+        distributor: pr.xpath("brend").text,
         image: pr.xpath("picture").map(&:text).join(' '),
         cat: categories[pr.xpath("categoryId").text],
         price: pr.xpath("price").text.to_f,
@@ -41,11 +42,12 @@ class Services::ImportProduct
       }
 
       data_update = {
-        sku: pr.xpath("vendorCode").text,
+        sku: pr.xpath("sku").text,
         title: pr.xpath("model").text,
         url: pr.xpath("url").text,
+        quantity: pr.xpath("quantity").text,
         desc: pr.xpath("description").text,
-        distributor: pr.xpath("vendor").text,
+        distributor: pr.xpath("brend").text,
         image: pr.xpath("picture").map(&:text).join(' '),
         cat: categories[pr.xpath("categoryId").text],
         price: pr.xpath("price").text.to_f,

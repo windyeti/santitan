@@ -29,9 +29,13 @@
   <div class="col- ">
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
       <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
-      <%#= f.collection_select :distributor_eq, Product.select(:distributor).uniq.order('distributor ASC'), 'distributor', 'distributor', {include_blank: false, prompt: 'Производитель'}, class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%= f.collection_select :distributor_eq, Product.all.order('distributor ASC').map {|product| [product.distributor, product.distributor]}.uniq, :first, :last, {include_blank: "Производитель"}, class: "form-control input-sm" , style: "max-width: 150px;" %>
       <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control input-sm", style: "width: 120px;" %>
       <%= f.search_field :abc_id_eq, placeholder: 'ID продукта поставщика', class: "form-control input-sm" %>
+      <div class="form-group ml-2 button_group">
+        Цена от <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control input-sm mr-2"%>
+        Цена до <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control input-sm"%>
+      </div>
 
       <div class="dropdown">
         <% head = Product::DISTRIBUTOR.map {|attr| attr[1] if @search.send(attr[0].to_sym) }.reject(&:nil?) %>
@@ -71,10 +75,10 @@
       <th>Артикул</th>
       <th>ID</th>
       <th style="width:250px;">Title</th>
-      <th>Цена продажи</th>
-      <th>Остаток</th>
+      <th><%= sort_link(@search, :price) %></th>
+      <th><%= sort_link(@search, :quantity) %></th>
       <th>Производитель</th>
-<!--      <th>Поставщик</th>-->
+      <th>Поставщик</th>
 <!--      <th>Desc</th>-->
       <th>Параметры</th>
       <th style="width:250px;">Image</th>
@@ -106,8 +110,7 @@
         <td><%= product.price %></td>
         <td><%= product.quantity %></td>
         <td><%= product.distributor %></td>
-
-<!--        <td><%#= render 'distributor_abc', product: product %></td>-->
+        <td><%= render 'distributor_abc', product: product %></td>
 <!--        <td><%#= product.desc.truncate(25) if product.desc != nil%></td>-->
         <td><%= product.p1.gsub(" --- ", ", ") %></td>
         <td class="row ml-0 mr-0">

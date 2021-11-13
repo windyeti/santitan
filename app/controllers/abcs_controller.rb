@@ -1,9 +1,23 @@
 class AbcsController < ApplicationController
-  before_action :set_abc, only: [:show]
-
   include Distributor
-
+  
+  before_action :set_abc, only: [:show]
+  
   def show; end
+
+  def update
+    @abc = Abc.find(params[:id])
+
+    respond_to do |format|
+      if @abc.update(params[:abc])
+        format.html { redirect_to(@abc, :notice => 'Realflame was successfully updated.') }
+        format.json { respond_with_bip(@abc) }
+      else
+        format.html { render :action => "edit" }
+        format.json { respond_with_bip(@abc) }
+      end
+    end
+  end
 
   def import
     FileUtils.rm_rf(Dir.glob('provider/*.*'))

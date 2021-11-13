@@ -33,8 +33,10 @@
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
       <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control input-sm"%>
       <%= f.search_field :title_or_sku_cont, placeholder: 'Название, Артикул', class: "form-control input-sm"%>
-    <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control input-sm", style: "width: 120px;" %>
-    <div class="form-group ml-2 button_group">
+      <%= f.collection_select :brand_eq, Abc.all.order('brand ASC').map {|product| [product.brand, product.brand]}.uniq, :first, :last, {include_blank: "Бренд"}, class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%= f.collection_select :series_eq, Abc.all.order('series ASC').map {|product| [product.series, product.series]}.uniq, :first, :last, {include_blank: "Серия"}, class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control input-sm", style: "width: 120px;" %>
+      <div class="form-group ml-2 button_group">
         Цена от <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control input-sm mr-2"%>
         Цена до <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control input-sm"%>
       </div>
@@ -49,13 +51,12 @@
       </div>
     <% end %>
   </div>
-</div>
 
 <div class="table-responsive" id="container_for_table_with_data">
   <table class="table table-hover table-condensed table-sm">
     <thead class="thead-light">
     <tr>
-      <th><%= check_box_tag 'selectAll', value = 'selectAll'%></th>
+<!--      <th><%#= check_box_tag 'selectAll', value = 'selectAll'%></th>-->
       <th>ID</th>
       <th>ID в Товарах</th>
       <th>Артикул</th>
@@ -71,7 +72,7 @@
     <tbody id="products_table">
     <% @abcs.each do |product| %>
       <tr class="<%= 'sync' if product.product.present? %>">
-        <td><%=check_box_tag "product_ids[]", product.id%></td>
+<!--        <td><%#=check_box_tag "product_ids[]", product.id%></td>-->
         <td><%= product.id %></td>
         <td><%= link_to product.product.id, products_path(q: {id_eq: product.product.id}) if product.product.present? %></td>
         <td><%= product.sku %></td>

@@ -12,7 +12,7 @@ class Services::AbcImport
     last_spreadsheet = spreadsheets.last_row.to_i
 
     (2..last_spreadsheet).each do |i|
-      pp data = {
+      data = {
         sku: spreadsheets.cell(i, 'A'),
         title: spreadsheets.cell(i, 'B'),
         quantity: spreadsheets.cell(i, 'C') == "более 10" ? 10 : 0,

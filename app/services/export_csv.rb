@@ -15,6 +15,7 @@ class Services::ExportCsv
 
       writer << headers
       products.each do |pr|
+        pp pr if pr.distributor == "FARO"
         productid_var_insales = pr.insales_var_id
         title = pr.title
         sku = pr.sku
