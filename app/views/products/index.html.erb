@@ -10,7 +10,7 @@
   <div class="col-">
     <div class="col- ">
       <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="btn btn-secondary dropdown-toggle form-control-xs" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Действия
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -28,18 +28,18 @@
   </div>
   <div class="col- ">
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
-      <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
-      <%= f.collection_select :distributor_eq, Product.all.order('distributor ASC').map {|product| [product.distributor, product.distributor]}.uniq, :first, :last, {include_blank: "Производитель"}, class: "form-control input-sm" , style: "max-width: 150px;" %>
-      <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control input-sm", style: "width: 120px;" %>
-      <%= f.search_field :abc_id_eq, placeholder: 'ID продукта поставщика', class: "form-control input-sm" %>
-      <div class="form-group ml-2 button_group">
-        Цена от <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control input-sm mr-2"%>
-        Цена до <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control input-sm"%>
+      <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control form-control-xs"%>
+      <%= f.collection_select :distributor_eq, Product.all.order('distributor ASC').map {|product| [product.distributor, product.distributor]}.uniq, :first, :last, {include_blank: "Производитель"}, class: "form-control form-control-xs" , style: "max-width: 150px;" %>
+      <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control form-control-xs", style: "width: 120px;" %>
+      <%= f.search_field :abc_id_eq, placeholder: 'ID продукта поставщика', class: "form-control form-control-xs" %>
+      <div class="form-group button_group">
+        <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control form-control-xs"%>
+        <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control form-control-xs"%>
       </div>
 
       <div class="dropdown">
         <% head = Product::DISTRIBUTOR.map {|attr| attr[1] if @search.send(attr[0].to_sym) }.reject(&:nil?) %>
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle form-control-xs" type="button" data-toggle="dropdown">
           <%= head.present? ? head.join(', ') : "Поставщики" %>
         </button>
         <ul class="dropdown-menu">
@@ -54,11 +54,11 @@
 
       <div class="form-group ml-2 button_group">
         <% f.submit 'Поиск', class: 'btn btn-info' %>
-        <%= button_tag(type: 'submit', :class => "btn btn-info") do %>
+        <%= button_tag(type: 'submit', :class => "btn btn-info form-control-xs") do %>
           <span class="oi oi-magnifying-glass"></span>
         <% end %>
-        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, products_path, class: 'btn btn-outline-dark' %>
-        <%= link_to '<span class="oi oi-list"></span>'.html_safe, products_path(otchet_type: 'selected', q: @params_q_to_csv), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
+        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, products_path, class: 'btn btn-outline-dark form-control-xs' %>
+        <%= link_to '<span class="oi oi-list"></span>'.html_safe, products_path(otchet_type: 'selected', q: @params_q_to_csv), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark form-control-xs'%>
       </div>
     <% end %>
   </div>

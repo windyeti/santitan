@@ -3,8 +3,8 @@
   <div class="col- mr-1">
     <div class="form-import">
       <%= form_tag import_abcs_path, multipart: true, class: "form_import" do %>
-        <%= file_field_tag :file %>
-        <%= submit_tag "Import" , class:'btn btn-primary btn-sm' %>
+        <%= file_field_tag :file, class: "form-control-xs" %>
+        <%= submit_tag "Import" , class:'btn btn-primary btn-sm form-control-xs' %>
       <% end %>
     </div>
   </div>
@@ -31,23 +31,23 @@
   <!--  </div>-->
 <!--  <div class="col- ">-->
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
-      <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control input-sm"%>
-      <%= f.search_field :title_or_sku_cont, placeholder: 'Название, Артикул', class: "form-control input-sm"%>
-      <%= f.collection_select :brand_eq, Abc.all.order('brand ASC').map {|product| [product.brand, product.brand]}.uniq, :first, :last, {include_blank: "Бренд"}, class: "form-control input-sm" , style: "max-width: 150px;" %>
-      <%= f.collection_select :series_eq, Abc.all.order('series ASC').map {|product| [product.series, product.series]}.uniq, :first, :last, {include_blank: "Серия"}, class: "form-control input-sm" , style: "max-width: 150px;" %>
-      <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control input-sm", style: "width: 120px;" %>
+      <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control form-control-xs"%>
+      <%= f.search_field :title_or_sku_cont, placeholder: 'Название, Артикул', class: "form-control form-control-xs"%>
+      <%= f.collection_select :brand_eq, Abc.all.order('brand ASC').map {|product| [product.brand, product.brand]}.uniq, :first, :last, {include_blank: "Бренд"}, class: "form-control form-control-xs" , style: "max-width: 150px;" %>
+      <%= f.collection_select :series_eq, Abc.all.order('series ASC').map {|product| [product.series, product.series]}.uniq, :first, :last, {include_blank: "Серия"}, class: "form-control form-control-xs" , style: "max-width: 150px;" %>
+      <%= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control form-control-xs", style: "width: 120px;" %>
       <div class="form-group ml-2 button_group">
-        Цена от <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control input-sm mr-2"%>
-        Цена до <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control input-sm"%>
+        <%= f.search_field :price_gteq, placeholder: 'Цена от', class: "form-control form-control-xs mr-2"%>
+        <%= f.search_field :price_lteq, placeholder: 'Цена до', class: "form-control form-control-xs"%>
       </div>
 
       <%= render 'shared/filtersync', f: f %>
 
       <div class="form-group ml-2 button_group">
         <% f.submit 'Поиск', class: 'btn btn-info' %>
-        <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
-        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, abcs_path, class: 'btn btn-outline-dark' %>
-        <%= link_to '<span class="oi oi-list"></span>'.html_safe, abcs_path(otchet_type: 'selected', q: @params_q_to_csv), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
+        <%= button_tag(type: 'submit', :class => "btn btn-info form-control-xs") do %><span class="oi oi-magnifying-glass"></span><% end %>
+        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, abcs_path, class: 'btn btn-outline-dark form-control-xs' %>
+        <%= link_to '<span class="oi oi-list"></span>'.html_safe, abcs_path(otchet_type: 'selected', q: @params_q_to_csv), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark form-control-xs'%>
       </div>
     <% end %>
   </div>
