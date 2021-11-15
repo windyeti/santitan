@@ -9,8 +9,8 @@ class AbcsController < ApplicationController
     @abc = Abc.find(params[:id])
 
     respond_to do |format|
-      if @abc.update(params[:abc])
-        format.html { redirect_to(@abc, :notice => 'Realflame was successfully updated.') }
+      if @abc.update(abc_params)
+        format.html { redirect_to(@abc, :notice => 'ABC was successfully updated.') }
         format.json { respond_with_bip(@abc) }
       else
         format.html { render :action => "edit" }
@@ -36,5 +36,9 @@ class AbcsController < ApplicationController
 
   def set_abc
     @abc = Abc.find(params[:id])
+  end
+
+  def abc_params
+    params.require(:abc).permit(:price, :quantity)
   end
 end

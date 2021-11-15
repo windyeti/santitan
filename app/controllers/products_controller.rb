@@ -40,10 +40,14 @@ class ProductsController < ApplicationController
   def edit; end
 
   def update
-    if @product.update(product_params)
-      redirect_to products_path
-    else
-      render :edit
+    respond_to do |format|
+      if @product.update(product_params)
+        format.html { redirect_to(@product, :notice => 'Product was successfully updated.') }
+        format.json { respond_with_bip(@product) }
+      else
+        format.html { render :action => "edit" }
+        format.json { respond_with_bip(@product) }
+      end
     end
   end
 

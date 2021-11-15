@@ -78,8 +78,8 @@
         <td><%= product.sku %></td>
         <td><%= link_to product.title, product, target: '_blank' %></td>
         <td><%= product.check %></td>
-        <td><%= product.quantity %></td>
-        <td><%= product.price %></td>
+        <td><%= best_in_place product, :quantity, :as => :input %></td>
+        <td><%= best_in_place product, :price, :as => :input %></td>
         <td><%= product.brand %></td>
         <td><%= product.series %></td>
       </tr>

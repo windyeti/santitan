@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :abcs, only: [:index, :show, :edit, :update] do
+  resources :abcs do
     collection do
       post :import
     end
