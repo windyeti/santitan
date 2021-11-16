@@ -12,10 +12,29 @@ class Services::AbcImport
     last_spreadsheet = spreadsheets.last_row.to_i
 
     (2..last_spreadsheet).each do |i|
+
+      quantity_cell = spreadsheets.cell(i, 'C')
+
+      if quantity_cell.match(/10/)
+        quantity = 10
+      elsif quantity_cell.match(/9/)
+        quantity = 9
+      elsif quantity_cell.match(/8/)
+        quantity = 8
+      elsif quantity_cell.match(/7/)
+        quantity = 7
+      elsif quantity_cell.match(/6/)
+        quantity = 6
+      elsif quantity_cell.match(/5/)
+        quantity = 5
+      else
+        quantity = 0
+      end
+
       data = {
         sku: spreadsheets.cell(i, 'A'),
         title: spreadsheets.cell(i, 'B'),
-        quantity: spreadsheets.cell(i, 'C') == "более 10" ? 10 : 0,
+        quantity: quantity,
         purchase_price: spreadsheets.cell(i, 'D'),
         price: spreadsheets.cell(i, 'E'),
         brand: spreadsheets.cell(i, 'F'),
