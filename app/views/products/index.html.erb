@@ -78,7 +78,8 @@
       <th><%= sort_link(@search, :price) %></th>
       <th><%= sort_link(@search, :quantity) %></th>
       <th>Производитель</th>
-      <th>Поставщик</th>
+      <th>ABC</th>
+      <th>Faro</th>
 <!--      <th>Desc</th>-->
       <th>Параметры</th>
       <th style="width:250px;">Image</th>
@@ -110,7 +111,12 @@
         <td><%= product.price %></td>
         <td><%= product.quantity %></td>
         <td><%= product.distributor %></td>
-        <td><%= render 'distributor_abc', product: product %></td>
+        <td>
+          <%= render 'distributor_abc', product: product %>
+        </td>
+        <td>
+          <%= render 'distributor_faro', product: product %>
+        </td>
 <!--        <td><%#= product.desc.truncate(25) if product.desc != nil%></td>-->
         <td><%= product.p1.gsub(" --- ", ", ") %></td>
         <td class="row ml-0 mr-0">

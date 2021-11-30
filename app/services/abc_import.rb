@@ -57,9 +57,10 @@ class Services::AbcImport
   end
 
   def linking(abc)
-    if abc.product.nil?
-      product = Product.find_by(sku: abc.sku)
-      abc.product = product if product.present?
+    products = Product.where(sku: abc.sku)
+    products.each do |product|
+      product.abc = abc
+      product.save
     end
   end
 

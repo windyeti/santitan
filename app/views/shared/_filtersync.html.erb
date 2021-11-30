@@ -1,5 +1,5 @@
 <div class="dropdown">
-  <% attrs = [["product_id_null", "Unsync"], ["product_id_not_null", "Sync"]] %>
+  <% attrs = [["products_id_null", "Unsync"], ["products_id_not_null", "Sync"]] %>
   <% head = attrs.map {|attr| attr[1] if @search.send(attr[0].to_sym) }.reject(&:nil?) %>
   <button class="btn btn-outline-secondary dropdown-toggle form-control-xs" type="button" data-toggle="dropdown">
     <%= head.present? ? head.join(', ') : "Все товары" %>

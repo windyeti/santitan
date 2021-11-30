@@ -5,3 +5,12 @@ task rest_client: :environment do
   # data = Nokogiri::XML(response)
   # offers = data.xpath("//offer")
 end
+
+task uniq: :environment do
+  a = Product.all.map(&:sku)
+  p a.uniq.
+    map { | e | [a.count(e), e] }.
+    select { | c, _ | c > 1 }.
+    sort.reverse.
+    map { | c, e | "#{e}:#{c}" }
+end

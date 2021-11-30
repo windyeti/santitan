@@ -1,7 +1,8 @@
 # TODO NewDistributor
 module ProductsHelper
   def distributor_exist?(product)
-    true if product.abc.present?
+    true if product.abc.present? ||
+      product.faro.present?
   end
 
   def count_product_var(product)

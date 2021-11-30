@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_03_153358) do
+ActiveRecord::Schema.define(version: 2021_11_29_081126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 2021_11_03_153358) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "faros", force: :cascade do |t|
+    t.string "title"
+    t.string "sku"
+    t.integer "quantity"
+    t.float "purchase_price"
+    t.float "price"
+    t.string "brand"
+    t.boolean "check", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "sku"
     t.string "title"
@@ -61,7 +73,9 @@ ActiveRecord::Schema.define(version: 2021_11_03_153358) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "abc_id"
+    t.bigint "faro_id"
     t.index ["abc_id"], name: "index_products_on_abc_id"
+    t.index ["faro_id"], name: "index_products_on_faro_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,4 +93,5 @@ ActiveRecord::Schema.define(version: 2021_11_03_153358) do
   end
 
   add_foreign_key "products", "abcs"
+  add_foreign_key "products", "faros"
 end

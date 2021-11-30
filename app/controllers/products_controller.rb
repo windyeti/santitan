@@ -10,14 +10,15 @@ class ProductsController < ApplicationController
       @params.delete(:abc_id_null) if @params[:abc_id_null] == '0'
 
       # делаем доступные параметры фильтров, чтобы их поместить их в параметр q «кнопки создать csv по фильтру»
-      @params_q_to_csv = @params.permit(:sku_or_title_or_cont,
+      @params_q_to_csv = @params.permit(:sku_or_title_cont,
                                         :distributor_eq,
                                         :quantity_eq,
                                         :price_gteq,
                                         :price_lteq,
                                         :abc_id_eq,
-                                        :abc_id_not_null,
-                                        :abc_id_null,
+                                        :faro_id_eq,
+                                        :abc_id_or_faro_id_not_null,
+                                        :abc_id_and_faro_id__null,
       )
     else
       @params = []

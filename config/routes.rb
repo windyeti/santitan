@@ -5,6 +5,11 @@ Rails.application.routes.draw do
       post :import
     end
   end
+  resources :faros do
+    collection do
+      post :import
+    end
+  end
 
   devise_for :users, controllers: {registrations: "registrations"}
 

@@ -8,6 +8,7 @@ class Services::ExportCsv
     # TODO NewDistributor
     products = Product
                  .where.not(abc: nil)
+                 .or(Product.where.not(faro: nil))
                  .order(:id)
 
     CSV.open("#{Rails.root}/public/export_insales.csv", "wb") do |writer|
@@ -15,7 +16,6 @@ class Services::ExportCsv
 
       writer << headers
       products.each do |pr|
-        pp pr if pr.distributor == "FARO"
         productid_var_insales = pr.insales_var_id
         title = pr.title
         sku = pr.sku

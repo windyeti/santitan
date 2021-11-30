@@ -1,17 +1,17 @@
 <div class="row mb-2 mr-0 ml-0 align-items-center" id="filter_menu">
-  <h3 class="mr-2">Поставщик ABC</h3>
+  <h3 class="mr-2">Поставщик Faro</h3>
   <div class="col- mr-1">
     <div class="form-import">
-      <%= form_tag import_abcs_path, multipart: true, class: "form_import" do %>
+      <%= form_tag import_faros_path, multipart: true, class: "form_import" do %>
         <%= file_field_tag :file, class: "form-control-xs" %>
         <%= submit_tag "Import" , class:'btn btn-primary btn-sm form-control-xs', disabled: true %>
       <% end %>
     </div>
   </div>
   <div class="col-md-4 mr-1">
-    <span class="align-middle"><small>Всего: <%= Abc.product_all_size %></small></span>
-    <span class="align-middle"><small>Отфильтровано: <%=@abcs.count%></small></span><br>
-    <span class="align-middle"><small>Больше нуля: <%= Abc.where.not(quantity: 0).size %></small></span>
+    <span class="align-middle"><small>Всего: <%= Faro.product_all_size %></small></span>
+    <span class="align-middle"><small>Отфильтровано: <%=@faros.count%></small></span><br>
+    <span class="align-middle"><small>Больше нуля: <%= Faro.where.not(quantity: 0).size %></small></span>
 <!--    <span class="align-middle"><small>Синхронизируется: <%#= Product.where.not(abc: nil).size %></small></span>-->
 
   </div>
@@ -33,8 +33,7 @@
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
       <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control form-control-xs"%>
       <%= f.search_field :title_or_sku_cont, placeholder: 'Название, Артикул', class: "form-control form-control-xs"%>
-      <%= f.collection_select :brand_eq, Abc.all.order('brand ASC').map {|product| [product.brand, product.brand]}.uniq, :first, :last, {include_blank: "Бренд"}, class: "form-control form-control-xs" , style: "max-width: 150px;" %>
-      <%= f.collection_select :series_eq, Abc.all.order('series ASC').map {|product| [product.series, product.series]}.uniq, :first, :last, {include_blank: "Серия"}, class: "form-control form-control-xs" , style: "max-width: 150px;" %>
+      <%= f.collection_select :brand_eq, Faro.all.order('brand ASC').map {|product| [product.brand, product.brand]}.uniq, :first, :last, {include_blank: "Бренд"}, class: "form-control form-control-xs" , style: "max-width: 150px;" %>
       <%= f.search_field :quantity_eq, placeholder: 'остаток', class: "form-control form-control-xs"%>
       <%#= f.collection_select :quantity_eq, [[0, 0], [10, 10]], :first, :last, {include_blank: "Остаток"}, class: "form-control form-control-xs", style: "width: 120px;" %>
       <div class="form-group ml-2 button_group">
@@ -66,12 +65,11 @@
       <th><%= sort_link(@search, :quantity) %></th>
       <th><%= sort_link(@search, :price) %></th>
       <th>Бренд</th>
-      <th>Серия</th>
     </tr>
     </thead>
 
     <tbody id="products_table">
-    <% @abcs.each do |product| %>
+    <% @faros.each do |product| %>
       <tr class="<%= 'sync' if product.products.present? %>">
 <!--        <td><%#=check_box_tag "product_ids[]", product.id%></td>-->
         <td><%= product.id %></td>
@@ -86,7 +84,6 @@
         <td><%= best_in_place product, :quantity, :as => :input %></td>
         <td><%= best_in_place product, :price, :as => :input %></td>
         <td><%= product.brand %></td>
-        <td><%= product.series %></td>
       </tr>
     <% end %>
     </tbody>
@@ -94,7 +91,7 @@
 </div>
 
 <div class="digg_pagination mt-4 mb-4">
-  <%= will_paginate @abcs %>
+  <%= will_paginate @faros %>
 </div>
 
 
