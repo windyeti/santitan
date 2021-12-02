@@ -1,3 +1,7 @@
-// Place all the styles related to the faros controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.modalPriceEdit {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 10000;
+  transform: translate(-50%, 50%);
+}

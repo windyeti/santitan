@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :faros do
     collection do
       post :import
+      post :price_edit
+      post :price_update
     end
   end
 

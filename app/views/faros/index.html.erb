@@ -15,21 +15,25 @@
 <!--    <span class="align-middle"><small>Синхронизируется: <%#= Product.where.not(abc: nil).size %></small></span>-->
 
   </div>
-<!--  <div class="col- mr-1">-->
-<!--    <div class="dropdown">-->
-<!--      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--        Действия-->
-<!--      </a>-->
-<!--      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
-        <%#= link_to 'Парсинг', parsing_lit_koms_path, class: 'dropdown-item'%>
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-  <!--  <div class="col- mr-1">-->
-  <%#= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_multiple_products_path, class: 'btn btn-secondary', id: 'edit_multiple', remote: true, data: { toggle: 'modal', 'target': '#modal-edit' } %>
-  <%#= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true%>
-  <!--  </div>-->
-<!--  <div class="col- ">-->
+  <div class="col-">
+    <div class="col- ">
+      <div class="dropdown">
+        <a class="btn btn-info dropdown-toggle form-control-xs" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Действия
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to "Редактировать цены",
+                      price_edit_faros_path,
+                      remote: true,
+                      class: "dropdown-item form-control-xs",
+                      id: "faro_price_edit_button",
+                      data: {type: :js},
+                      method: :post
+          %>
+        </div>
+      </div>
+    </div>
+  </div>
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
       <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control form-control-xs"%>
       <%= f.search_field :title_or_sku_cont, placeholder: 'Название, Артикул', class: "form-control form-control-xs"%>
@@ -56,7 +60,7 @@
   <table class="table table-hover table-condensed table-sm">
     <thead class="thead-light">
     <tr>
-<!--      <th><%#= check_box_tag 'selectAll', value = 'selectAll'%></th>-->
+      <th><%= check_box_tag 'selectAll', value = 'selectAll'%></th>
       <th>ID</th>
       <th>ID в Товарах</th>
       <th>Артикул</th>
@@ -71,7 +75,7 @@
     <tbody id="products_table">
     <% @faros.each do |product| %>
       <tr class="<%= 'sync' if product.products.present? %>">
-<!--        <td><%#=check_box_tag "product_ids[]", product.id%></td>-->
+        <td><%=check_box_tag "product_ids[]", product.id%></td>
         <td><%= product.id %></td>
         <td>
           <% product.products.each do |product| %>

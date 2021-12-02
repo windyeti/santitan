@@ -1,0 +1,31 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="priceEdit">Обновление цен.</h4>
+      <small>Выбрано: <%=@faros.size%></small>
+      <button type="button" class="close" data-dismiss="modal">&#x2715</button>
+    </div>
+    <div class="form-group"><label class="col-sm-12 control-label">Новое значение</label></div>
+    <%= form_tag price_update_faros_path, method: :post , class: "form-inline" do %>
+
+      <div class="modal-body">
+        <%@faros.each do |pr|%>
+          <%= hidden_field_tag "ids[]", pr.id %>
+        <% end %>
+
+        <%= fields_for :product_price do |f| %>
+          <div class="form-group">
+            <%= f.select :price_move, [['+','+'], ['-','-']], {:include_blank => false}, {class: "form-control"} %>
+            <%= f.text_field :price_shift, {type: "number", class: "form-control"} %>
+            <%= f.select :price_points, [['%','percents'], ['ед.','fixed']], {:include_blank => false}, {class: "form-control"} %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="modal-footer">
+        <%= submit_tag "Обновить", class: "btn btn-primary" %>
+<!--        <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>-->
+      </div>
+    <% end %>
+  </div>
+</div>

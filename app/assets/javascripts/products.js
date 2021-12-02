@@ -6,7 +6,6 @@ $(document).ready(function(e) {
   var pagination_height = $('.digg_pagination').height();
 
   $container_table.height($(window).height() - header_height - filter_height - pagination_height - 110);
-  console.log($(window).height(), header_height, filter_height, pagination_height, $container_table.height())
 
   $(window).resize(function() {
     var header_height = $('.header').height();
