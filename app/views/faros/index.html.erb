@@ -68,6 +68,7 @@
       <th>Актуальность</th>
       <th><%= sort_link(@search, :quantity) %></th>
       <th><%= sort_link(@search, :price) %></th>
+      <th><%= sort_link(@search, :purchase_price, 'Закупочная цена') %></th>
       <th>Бренд</th>
     </tr>
     </thead>
@@ -87,6 +88,7 @@
         <td><%= product.check %></td>
         <td><%= best_in_place product, :quantity, :as => :input %></td>
         <td><%= best_in_place product, :price, :as => :input %></td>
+        <td><%= product.purchase_price %></td>
         <td><%= product.brand %></td>
       </tr>
     <% end %>
