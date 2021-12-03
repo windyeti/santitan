@@ -9,23 +9,23 @@ module Distributor
       # @params.delete(:product_id_null) if @params[:product_id_null] == "0"
       # @params.delete(:product_id_not_null) if @params[:product_id_not_null] == "0"
 
-      # @params_q_to_csv = @params.permit(
-      #                                   :id_eq,
-      #                                   :title_or_sku_cont,
-      #                                   :quantity_eq,
-      #                                   :brand_eq,
-      #                                   :series_eq,
-      #                                   :product_id_null,
-      #                                   :product_id_not_null,
-      #                                   :price_gteq,
-      #                                   :price_lteq
-      #                                   )
+      @params_q_to_csv = @params.permit(
+                                        :id_eq,
+                                        :title_or_sku_cont,
+                                        :quantity_eq,
+                                        :brand_eq,
+                                        :series_eq,
+                                        :product_id_null,
+                                        :product_id_not_null,
+                                        :price_gteq,
+                                        :price_lteq
+                                        )
     else
       @params = {}
     end
 
     # данные для «кнопки создать csv по фильтру», все данные в отличии от @products, который ограничен 100
-    @search_id_by_q = set_klass.ransack(@params).result.pluck(:id)
+    @search_id_by_q = set_klass.ransack(@params_q_to_csv).result.pluck(:id)
 
     @search = set_klass.ransack(@params)
     @search.sorts = 'id desc' if @search.sorts.empty?

@@ -18,6 +18,7 @@ class Services::CsvSelectedDistributor
     # @file_name_output = "#{Rails.public_path}/#{@klass_str}_selected.csv"
 
     @tovs = @klass_str.constantize.where(id: product_ids).order(:id)
+    p @tovs.count
 
     check_previous_files_csv
 
@@ -55,7 +56,7 @@ class Services::CsvSelectedDistributor
       @tovs.each do |tov|
         product_properties = product_hash_structure.keys
         product_properties_amount = product_properties.map do |property|
-          tov.send(property)
+          tov.send(property) rescue next
         end
         writer << product_properties_amount
       end
