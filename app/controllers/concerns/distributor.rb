@@ -15,8 +15,8 @@ module Distributor
                                         :quantity_eq,
                                         :brand_eq,
                                         :series_eq,
-                                        :product_id_null,
-                                        :product_id_not_null,
+                                        :products_id_null,
+                                        :products_id_not_null,
                                         :price_gteq,
                                         :price_lteq
                                         )
