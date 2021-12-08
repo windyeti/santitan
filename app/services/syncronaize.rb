@@ -1,6 +1,8 @@
 class Services::Syncronaize
   def self.call
     Product.find_each(batch_size: 1000) do |product|
+      product.update(quantity: 0)
+
       abc = product.abc
       faro = product.faro
 

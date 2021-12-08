@@ -28,7 +28,7 @@ class ProductsController < ApplicationController
     @search.sorts = 'id desc' if @search.sorts.empty?
 
     # данные для «кнопки создать csv по фильтру», все данные в отличии от @products, который ограничен 100
-    @search_id_by_q = Product.ransack(@params).result.pluck(:id)
+    @search_id_by_q = Product.ransack(@params_q_to_csv).result.pluck(:id)
 
     @products = @search.result.paginate(page: params[:page], per_page: 100)
 
