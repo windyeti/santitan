@@ -62,20 +62,26 @@ class ProductsController < ApplicationController
   end
 
   def import_product
+    ActionCable.server.broadcast 'status_process', {distributor: "product", process: "update_product", status: "start", message: "Обновление товаров из InSales"}
+
     ImportProductJob.perform_later
-    redirect_to products_path, notice: 'Запущен процесс Обновление Товаров InSales'
+    # redirect_to products_path, notice: 'Запущен процесс Обновление Товаров InSales'
   end
 
   def syncronaize
+    ActionCable.server.broadcast 'status_process', {distributor: "product", process: "syncronize", status: "start", message: "Синхронизация остатков и цен"}
+
     SyncronaizeJob.perform_later
-    flash[:notice] = 'Задача синхронизации каталога запущена'
-    redirect_to products_path
+    # flash[:notice] = 'Задача синхронизации каталога запущена'
+    # redirect_to products_path
   end
 
   def export_csv
+    ActionCable.server.broadcast 'status_process', {distributor: "product", process: "export_csv", status: "start", message: "Создание Csv-файла для экспорта"}
+
     ExportCsvJob.perform_later
-    flash[:notice] = 'Задача создания CSV для экспорта запущена'
-    redirect_to products_path
+    # flash[:notice] = 'Задача создания CSV для экспорта запущена'
+    # redirect_to products_path
   end
 
   private

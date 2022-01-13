@@ -14,10 +14,10 @@
           Действия
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <%= link_to 'Обновить каталог Товаров', import_product_products_path, class: 'dropdown-item'%>
+          <%= link_to 'Обновить каталог Товаров', import_product_products_path, remote: true, class: 'dropdown-item'%>
           <%#= link_to 'Линковать ()', linking_products_path, class: 'dropdown-item'%>
-          <%= link_to 'Синхронизировать Цены и Остатки', syncronaize_products_path, class: 'dropdown-item'%>
-          <%= link_to 'Создать CSV-файл для экспорта', export_csv_products_path, class: 'dropdown-item'%>
+          <%= link_to 'Синхронизировать Цены и Остатки', syncronaize_products_path, remote: true, class: 'dropdown-item'%>
+          <%= link_to 'Создать CSV-файл для экспорта', export_csv_products_path, remote: true, class: 'dropdown-item'%>
           <%= link_to 'Скачать CSV-файл для экспорта', "/export_insales.csv", class: 'dropdown-item' %>
           <%#= link_to 'Создать CSV-файл с товарами без Артикула', csv_not_sku_products_path, class: 'dropdown-item'%>
 <!--                <div class="dropdown-divider"></div>-->

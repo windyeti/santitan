@@ -20,6 +20,8 @@ class FarosController < ApplicationController
   end
 
   def import
+    ActionCable.server.broadcast 'status_process', {distributor: "faro", process: "update_distributor", status: "start", message: "Обновление товаров поставщика Faro"}
+
     FileUtils.rm_rf(Dir.glob('public/faro/*.*'))
     uploaded_io = params[:file]
 

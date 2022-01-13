@@ -3,5 +3,7 @@ class SyncronaizeJob < ApplicationJob
 
   def perform
     Services::Syncronaize.call
+
+    ActionCable.server.broadcast 'status_process', {distributor: "product", process: "syncronize", status: "finish", message: "Синхронизация остатков и цен"}
   end
 end

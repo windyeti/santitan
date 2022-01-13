@@ -20,6 +20,8 @@ class AbcsController < ApplicationController
   end
 
   def import
+    ActionCable.server.broadcast 'status_process', {distributor: "abc", process: "update_distributor", status: "start", message: "Обновление товаров поставщика Abc"}
+
     FileUtils.rm_rf(Dir.glob('provider/*.*'))
     uploaded_io = params[:file]
 
@@ -30,8 +32,8 @@ class AbcsController < ApplicationController
     path_file = Rails.root.join('provider', uploaded_io.original_filename).to_s
     extend_file = uploaded_io.original_filename.to_s
     AbcImportJob.perform_later(path_file, extend_file)
-    flash[:notice] = 'Задача импорта Товаров запущена'
-    redirect_to abcs_path
+    # flash[:notice] = 'Задача импорта Товаров запущена'
+    # redirect_to abcs_path
   end
 
   private
