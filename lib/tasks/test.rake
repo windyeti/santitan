@@ -14,3 +14,18 @@ task uniq: :environment do
     sort.reverse.
     map { | c, e | "#{e}:#{c}" }
 end
+
+task nova: :environment do
+  FileUtils.rm Dir.glob("#{Rails.public_path}/nova_abc.csv")
+  shop_rows = CSV.read("#{Rails.public_path}/shop.csv", headers: true)
+  shop_skus = shop_rows.map {|row| row["Артикул"]}
+  nova_rows = CSV.read("#{Rails.public_path}/nova.csv", headers: true)
+
+  CSV.open("#{Rails.public_path}/nova_abc.csv", "a+") do |csv|
+    csv << nova_rows.first.to_hash.keys
+    nova_rows.each do |nova_row|
+      next if shop_skus.include?(nova_row["Артикул"])
+      csv << nova_row
+    end
+  end
+end

@@ -15,7 +15,7 @@ class Services::FaroImport
 
       quantity = spreadsheets.cell(i, 'E').to_i >= 5 ? spreadsheets.cell(i, 'E').to_i : 0
       purchase_price = spreadsheets.cell(i, 'D')
-      price = (purchase_price.to_f + purchase_price.to_f / 100 * 42).ceil
+      price = (purchase_price.to_f + purchase_price.to_f / 100 * 52).ceil
 
       puts data = {
         sku: spreadsheets.cell(i, 'B'),
